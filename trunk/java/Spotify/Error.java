@@ -19,25 +19,25 @@ package Spotify;
 
 public class Error {
 
-	final int SP_ERROR_OK                        = 0;  ///< No errors encountered
-	final int SP_ERROR_BAD_API_VERSION           = 1;  ///< The library version targeted does not match the one you claim you support
-	final int SP_ERROR_API_INITIALIZATION_FAILED = 2;  ///< Initialization of library failed - are cache locations etc. valid?
-	final int SP_ERROR_TRACK_NOT_PLAYABLE        = 3;  ///< The track specified for playing cannot be played
-	final int SP_ERROR_RESOURCE_NOT_LOADED       = 4;  ///< One or several of the supplied resources is not yet loaded
-	final int SP_ERROR_BAD_APPLICATION_KEY       = 5;  ///< The application key is invalid
-	final int SP_ERROR_BAD_USERNAME_OR_PASSWORD  = 6;  ///< Login failed because of bad username and/or password
-	final int SP_ERROR_USER_BANNED               = 7;  ///< The specified username is banned
-	final int SP_ERROR_UNABLE_TO_CONTACT_SERVER  = 8;  ///< Cannot connect to the Spotify backend system
-	final int SP_ERROR_CLIENT_TOO_OLD            = 9;  ///< Client is too old; library will need to be updated
-	final int SP_ERROR_OTHER_PERMANENT           = 10; ///< Some other error occured; and it is permanent (e.g. trying to relogin will not help)
-	final int SP_ERROR_BAD_USER_AGENT            = 11; ///< The user agent string is invalid or too long
-	final int SP_ERROR_MISSING_CALLBACK          = 12; ///< No valid callback registered to handle events
-	final int SP_ERROR_INVALID_INDATA            = 13; ///< Input data was either missing or invalid
-	final int SP_ERROR_INDEX_OUT_OF_RANGE        = 14; ///< Index out of range
-	final int SP_ERROR_USER_NEEDS_PREMIUM        = 15; ///< The specified user needs a premium account
-	final int SP_ERROR_OTHER_TRANSIENT           = 16; ///< A transient error occured.
-	final int SP_ERROR_IS_LOADING                = 17; ///< The resource is currently loading
-	final int SP_ERROR_NO_STREAM_AVAILABLE       = 18; ///< Could not find any suitable stream to play
-	final int SP_ERROR_PERMISSION_DENIED         = 19; ///< Requested operation is not allowed
-	final int SP_ERROR_INBOX_IS_FULL             = 20; ///< Target inbox is full
+	public final int SP_ERROR_OK                        = 0;  ///< No errors encountered
+	public final int SP_ERROR_BAD_API_VERSION           = 1;  ///< The library version targeted does not match the one you claim you support
+	public final int SP_ERROR_API_INITIALIZATION_FAILED = 2;  ///< Initialization of library failed - are cache locations etc. valid?
+	public final int SP_ERROR_TRACK_NOT_PLAYABLE        = 3;  ///< The track specified for playing cannot be played
+	public final int SP_ERROR_RESOURCE_NOT_LOADED       = 4;  ///< One or several of the supplied resources is not yet loaded
+	public final int SP_ERROR_BAD_APPLICATION_KEY       = 5;  ///< The application key is invalid
+	public final int SP_ERROR_BAD_USERNAME_OR_PASSWORD  = 6;  ///< Login failed because of bad username and/or password
+	public final int SP_ERROR_USER_BANNED               = 7;  ///< The specified username is banned
+	public final int SP_ERROR_UNABLE_TO_CONTACT_SERVER  = 8;  ///< Cannot connect to the Spotify backend system
+	public final int SP_ERROR_CLIENT_TOO_OLD            = 9;  ///< Client is too old; library will need to be updated
+	public final int SP_ERROR_OTHER_PERMANENT           = 10; ///< Some other error occured; and it is permanent (e.g. trying to relogin will not help)
+	public final int SP_ERROR_BAD_USER_AGENT            = 11; ///< The user agent string is invalid or too long
+	public final int SP_ERROR_MISSING_CALLBACK          = 12; ///< No valid callback registered to handle events
+	public final int SP_ERROR_INVALID_INDATA            = 13; ///< Input data was either missing or invalid
+	public final int SP_ERROR_INDEX_OUT_OF_RANGE        = 14; ///< Index out of range
+	public final int SP_ERROR_USER_NEEDS_PREMIUM        = 15; ///< The specified user needs a premium account
+	public final int SP_ERROR_OTHER_TRANSIENT           = 16; ///< A transient error occured.
+	public final int SP_ERROR_IS_LOADING                = 17; ///< The resource is currently loading
+	public final int SP_ERROR_NO_STREAM_AVAILABLE       = 18; ///< Could not find any suitable stream to play
+	public final int SP_ERROR_PERMISSION_DENIED         = 19; ///< Requested operation is not allowed
+	public final int SP_ERROR_INBOX_IS_FULL             = 20; ///< Target inbox is full
 }

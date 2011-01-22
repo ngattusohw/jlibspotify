@@ -17,7 +17,7 @@
 
 package Spotify;
 
-class AudioBufferStats
+public class AudioBufferStats
 {
 	int 	m_samples;      ///< Samples in buffer
 	int 	m_stutter;  	///< Number of stutters (audio dropouts) since last query
