@@ -17,13 +17,13 @@
 
 package Spotify;
 
-class AudioFormat
+public class AudioFormat
 {
 	public AudioFormat()
 	{	
 	}
 	
-	int		m_sampleType;		// SP_SAMPLETYPE_INT16_NATIVE_ENDIAN
-	int		m_sampleRate;		// samples per second
-	int		m_channels;			// number of channels
+	public int		m_sampleType;		// SP_SAMPLETYPE_INT16_NATIVE_ENDIAN
+	public int		m_sampleRate;		// samples per second
+	public int		m_channels;			// number of channels
 }

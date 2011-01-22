@@ -19,24 +19,24 @@ package Spotify;
 
 public class PlayListElement {
 
-	native PlayListElement GetParent();
+	public native PlayListElement GetParent();
 
-	native boolean HasChildren();
+	public native boolean HasChildren();
 
-	native int GetNumChildren();
+	public native int GetNumChildren();
 
-	native PlayListElement GetChild(int index);
+	public native PlayListElement GetChild(int index);
 
-	native boolean IsLoading( boolean recursive );
+	public native boolean IsLoading( boolean recursive );
 
-	native String GetName();
+	public native String GetName();
 
-	static final int PLAYLIST = 0;
-	static final int PLAYLIST_FOLDER = 1;
-	static final int PLAYLIST_CONTAINER = 2;
-	static final int TRACK = 3;
+	public static final int PLAYLIST = 0;
+	public static final int PLAYLIST_FOLDER = 1;
+	public static final int PLAYLIST_CONTAINER = 2;
+	public static final int TRACK = 3;
 
-	native int GetType();
+	public native int GetType();
 
 	public String GetTypeString() {
 		int type = GetType();
@@ -85,7 +85,7 @@ public class PlayListElement {
 		}
 	}
 
-	native void Release();
+	public native void Release();
 	
 	public void finalize()
 	{
