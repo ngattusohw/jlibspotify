@@ -23,6 +23,30 @@ extern "C" {
 JNIEXPORT jint JNICALL Java_Spotify_Track_GetDuration
   (JNIEnv *, jobject);
 
+/*
+ * Class:     Spotify_Track
+ * Method:    GetNumArtists
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_Spotify_Track_GetNumArtists
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     Spotify_Track
+ * Method:    GetArtist
+ * Signature: (I)LSpotify/Artist;
+ */
+JNIEXPORT jobject JNICALL Java_Spotify_Track_GetArtist
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     Spotify_Track
+ * Method:    GetAlbum
+ * Signature: ()LSpotify/Album;
+ */
+JNIEXPORT jobject JNICALL Java_Spotify_Track_GetAlbum
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif
