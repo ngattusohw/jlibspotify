@@ -35,6 +35,8 @@ namespace Spotify
 		virtual PlayListContainer*	CreatePlayListContainer();
 		virtual PlayListFolder*		CreatePlayListFolder();
 		virtual Track*				CreateTrack();
+		virtual Artist*				CreateArtist();
+		virtual Album*				CreateAlbum();
 
 		JNIEnv* GetEnv();
 

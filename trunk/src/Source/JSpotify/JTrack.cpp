@@ -17,6 +17,10 @@
 
 #include "JTrack.h"
 #include "JSession.h"
+#include "JArtist.h"
+#include "JAlbum.h"
+
+#include "JUtils.h"
 
 // JNI
 #include "Spotify/Spotify_Track.h"
@@ -28,6 +32,47 @@ JNIEXPORT jint JNICALL Java_Spotify_Track_GetDuration
 	Spotify::Track* pTrack = static_cast<Spotify::Track*>( pElement );
 	
 	return pTrack->GetDuration();
+}
+
+JNIEXPORT jint JNICALL Java_Spotify_Track_GetNumArtists
+  (JNIEnv *env, jobject object)
+{
+	Spotify::PlayListElement* pElement = Spotify::JPlayListElement::GetPlayListElement( env, object );
+	Spotify::Track* pTrack = static_cast<Spotify::Track*>( pElement );
+
+	return pTrack->GetNumArtists();
+}
+
+JNIEXPORT jobject JNICALL Java_Spotify_Track_GetArtist
+  (JNIEnv *env, jobject object, jint index)
+{
+	Spotify::PlayListElement* pElement = Spotify::JPlayListElement::GetPlayListElement( env, object );
+	Spotify::Track* pTrack = static_cast<Spotify::Track*>( pElement );
+
+	Spotify::JArtist* pArtist = static_cast<Spotify::JArtist*>( pTrack->GetArtist( index ) );
+
+	jclass cls = env->FindClass( "Spotify/Artist" );
+	jmethodID cid = env->GetMethodID( cls, "<init>", "(I)V");
+		
+	jobject javaObject = env->NewObject( cls, cid, PointerToNativePtr(pArtist) );
+
+	return javaObject;
+}
+
+JNIEXPORT jobject JNICALL Java_Spotify_Track_GetAlbum
+  (JNIEnv *env, jobject object)
+{
+	Spotify::PlayListElement* pElement = Spotify::JPlayListElement::GetPlayListElement( env, object );
+	Spotify::Track* pTrack = static_cast<Spotify::Track*>( pElement );
+
+	Spotify::JAlbum* pAlbum = static_cast<Spotify::JAlbum*>( pTrack->GetAlbum() );
+
+	jclass cls = env->FindClass( "Spotify/Album" );
+	jmethodID cid = env->GetMethodID( cls, "<init>", "(I)V");
+		
+	jobject javaObject = env->NewObject( cls, cid, PointerToNativePtr(pAlbum) );
+
+	return javaObject;
 }
 
 namespace Spotify

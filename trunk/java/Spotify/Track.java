@@ -19,7 +19,13 @@ package Spotify;
 
 public class Track extends PlayListElement {
 
-	public native int GetDuration(); 
+	public native int GetDuration();
+	
+	public native int GetNumArtists();
+	
+	public native Artist GetArtist( int index );
+	
+	public native Album GetAlbum();
 	
 	private Track( int nativePtr )
 	{

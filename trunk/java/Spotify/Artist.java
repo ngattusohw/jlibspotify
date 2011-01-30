@@ -15,8 +15,25 @@
  * 
  */
 
-Auto-generated Header Files for JNI Integration
+package Spotify;
 
-Created for each class via:
- - javac Spotify/<class>.java
- - javah -jni Spotify.<class>
+public class Artist {
+
+	public native String GetName();
+	
+	public native boolean IsLoading();
+	
+	public void finalize()
+	{
+		Release();
+	}
+	
+	public native void Release();	
+	
+	private Artist( int nativePtr )
+	{
+		m_nativePtr = nativePtr;
+	}
+	
+	int m_nativePtr = 0;	
+}

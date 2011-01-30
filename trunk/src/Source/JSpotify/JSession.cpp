@@ -20,6 +20,8 @@
 #include "JPlayList.h"
 #include "JPlayListContainer.h"
 #include "JPlayListFolder.h"
+#include "JArtist.h"
+#include "JAlbum.h"
 
 #include "JUtils.h"
 
@@ -304,6 +306,16 @@ namespace Spotify
 	Track* JSession::CreateTrack()
 	{
 		return new JTrack( this );
+	}
+
+	Artist* JSession::CreateArtist()
+	{
+		return new JArtist();
+	}
+
+	Album* JSession::CreateAlbum()
+	{
+		return new JAlbum();
 	}
 
 	void JSession::JNICallVoidMethod( const char* name, const char* sig, ... )

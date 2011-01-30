@@ -15,8 +15,12 @@
  * 
  */
 
-Auto-generated Header Files for JNI Integration
+#include "Spotify/Artist.h"
 
-Created for each class via:
- - javac Spotify/<class>.java
- - javah -jni Spotify.<class>
+namespace Spotify
+{
+	class JArtist : public Artist
+	{
+
+	};
+}
