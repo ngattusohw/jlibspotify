@@ -19,8 +19,12 @@
 
 namespace Spotify
 {
+	// forward declaration
+	class Session;
+
 	class JAlbum : public Album
 	{
-
+	public:
+		JAlbum( Session* pSession ) : Album( pSession ) {}
 	};
 }

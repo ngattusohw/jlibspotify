@@ -25,6 +25,14 @@ JNIEXPORT jboolean JNICALL Java_Spotify_Album_IsLoading
 
 /*
  * Class:     Spotify_Album
+ * Method:    GetImage
+ * Signature: ()LSpotify/Image;
+ */
+JNIEXPORT jobject JNICALL Java_Spotify_Album_GetImage
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     Spotify_Album
  * Method:    Release
  * Signature: ()V
  */

@@ -17,13 +17,11 @@
 
 package Spotify;
 
-public class Album {
-
-	public native String GetName();
+public class Image {
+	
+	public native char[] GetData();
 	
 	public native boolean IsLoading();
-	
-	public native Image GetImage();
 	
 	public void finalize()
 	{
@@ -32,10 +30,11 @@ public class Album {
 	
 	public native void Release();	
 	
-	private Album( int nativePtr )
+	private Image( int nativePtr )
 	{
 		m_nativePtr = nativePtr;
 	}
 	
 	int m_nativePtr = 0;	
 }
+

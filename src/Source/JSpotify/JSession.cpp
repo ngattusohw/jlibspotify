@@ -22,6 +22,7 @@
 #include "JPlayListFolder.h"
 #include "JArtist.h"
 #include "JAlbum.h"
+#include "JImage.h"
 
 #include "JUtils.h"
 
@@ -315,7 +316,12 @@ namespace Spotify
 
 	Album* JSession::CreateAlbum()
 	{
-		return new JAlbum();
+		return new JAlbum( this );
+	}
+
+	Image* JSession::CreateImage()
+	{
+		return new JImage( this );
 	}
 
 	void JSession::JNICallVoidMethod( const char* name, const char* sig, ... )
