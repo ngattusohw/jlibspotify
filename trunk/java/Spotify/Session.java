@@ -107,47 +107,47 @@ public class Session {
 	}
 
 	public void OnLoggedIn(int error) {
-		System.out.printf("JAVA - OnLoggedIn - error[%d]\n", error);
+		//System.out.printf("JAVA - OnLoggedIn - error[%d]\n", error);
 	}
 
 	public void OnLoggedOut() {
-		System.out.printf("JAVA - OnLoggedOut\n");
+		//System.out.printf("JAVA - OnLoggedOut\n");
 	}
 
 	public void OnMetadataUpdated() {
-		System.out.printf("JAVA - OnMetadataUpdated\n");
+		//System.out.printf("JAVA - OnMetadataUpdated\n");
 	}
 
 	public void OnConnectionError(int error) {
-		System.out.printf(" JAVA - OnConnectionError [%d]\n", error);
+		//System.out.printf(" JAVA - OnConnectionError [%d]\n", error);
 	}
 
 	public void OnMessageToUser(String message) {
-		System.out.printf("JAVA - OnMessageToUser [%s]", message);
+		//System.out.printf("JAVA - OnMessageToUser [%s]", message);
 	}
 
 	public void OnNotifyMainThread() {
-		System.out.println("JAVA - OnNotifyMainThread");
+		//System.out.println("JAVA - OnNotifyMainThread");
 	}
 
 	final int SP_SAMPLETYPE_INT16_NATIVE_ENDIAN = 0; // /< 16-bit signed integer
 														// samples
 
 	public int OnMusicDelivery(AudioFormat format, byte[] frames, int numFrames) {
-		System.out.printf("OnMusicDelivery [%d]\n", numFrames);
+		//System.out.printf("OnMusicDelivery [%d]\n", numFrames);
 		return numFrames;
 	}
 
 	public void OnPlayTokenLost() {
-		System.out.printf("Java - OnPlayTokenLost\n");
+		//System.out.printf("Java - OnPlayTokenLost\n");
 	}
 
 	public void OnLogMessage(String message) {
-		System.out.printf("Java - OnLogMessage [%s]\n", message);
+		//System.out.printf("Java - OnLogMessage [%s]\n", message);
 	}
 
 	public void OnEndOfTrack() {
-		System.out.printf("Java - OnEndOfTrack\n");
+		//System.out.printf("Java - OnEndOfTrack\n");
 	}
 
 	public void OnStreamingError(int error) {

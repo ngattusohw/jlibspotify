@@ -37,6 +37,7 @@ namespace Spotify
 		virtual Track*				CreateTrack();
 		virtual Artist*				CreateArtist();
 		virtual Album*				CreateAlbum();
+		virtual Image*				CreateImage();
 
 		JNIEnv* GetEnv();
 

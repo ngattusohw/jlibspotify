@@ -16,6 +16,7 @@
  */
 
 #include "JAlbum.h"
+#include "JImage.h"
 #include "JUtils.h"
 
 #include "Spotify/Spotify_Album.h"
@@ -48,6 +49,26 @@ JNIEXPORT jboolean JNICALL Java_Spotify_Album_IsLoading
 	Spotify::JAlbum* pAlbum = GetAlbumNativePtr( env, object );
 
 	return pAlbum->IsLoading();
+}
+
+JNIEXPORT jobject JNICALL Java_Spotify_Album_GetImage
+  (JNIEnv *env, jobject object)
+{
+	Spotify::JAlbum* pAlbum = GetAlbumNativePtr( env, object );
+
+	Spotify::JImage* pImage = static_cast<Spotify::JImage*>( pAlbum->GetImage() );
+
+	if (pImage == NULL)
+	{
+		return NULL;
+	}
+
+	jclass cls = env->FindClass( "Spotify/Image" );
+	jmethodID cid = env->GetMethodID( cls, "<init>", "(I)V");
+		
+	jobject javaObject = env->NewObject( cls, cid, PointerToNativePtr(pImage) );
+
+	return javaObject;
 }
 
 JNIEXPORT void JNICALL Java_Spotify_Album_Release

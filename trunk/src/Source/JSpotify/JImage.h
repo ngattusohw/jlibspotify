@@ -15,27 +15,16 @@
  * 
  */
 
-package Spotify;
+#include "Spotify/Image.h"
 
-public class Album {
+namespace Spotify
+{
+	// forward declaration
+	class Session;
 
-	public native String GetName();
-	
-	public native boolean IsLoading();
-	
-	public native Image GetImage();
-	
-	public void finalize()
+	class JImage : public Image
 	{
-		Release();
-	}
-	
-	public native void Release();	
-	
-	private Album( int nativePtr )
-	{
-		m_nativePtr = nativePtr;
-	}
-	
-	int m_nativePtr = 0;	
+	public:
+		JImage( Session* pSession ) : Image( pSession ) {}
+	};
 }
