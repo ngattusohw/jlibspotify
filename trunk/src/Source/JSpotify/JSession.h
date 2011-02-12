@@ -21,9 +21,35 @@
 
 #include "Spotify/Session.h"
 
+#include "Spotify/Core/Mutex.h"
+
+#include <list>
+
+#ifdef THREADING_CHECKS
+# define JSESSION_VALIDATE_THREAD()		::Spotify::JSession::ValidateThread( __FILE__ );
+#else
+# define JSESSION_VALIDATE_THREAD()
+#endif
+
 namespace Spotify
 {
 	
+	class ReleaseJobBase
+	{
+	public:
+		virtual void Release() = 0;
+	};
+
+	template <class T>
+	class ReleaseJob : public ReleaseJobBase
+	{
+	public:
+		ReleaseJob( T* pObject ) : m_pObject( pObject ) {}
+		virtual void Release() { delete m_pObject; m_pObject = NULL; }
+	private:
+		T* m_pObject;
+	};
+
 	class JSession : public Spotify::Session
 	{
 	public:
@@ -40,6 +66,15 @@ namespace Spotify
 		virtual Image*				CreateImage();
 
 		JNIEnv* GetEnv();
+
+		virtual void Update();
+
+		template <class T>
+		void ThreadSafeRelease( T* pObject );
+
+#ifdef THREADING_CHECKS
+		static void ValidateThread( const char* label );		
+#endif
 
 	protected:
 		
@@ -60,9 +95,27 @@ namespace Spotify
 		virtual void OnGetAudioBufferStats( sp_audio_buffer_stats* stats );
 	private:
 
-		void		JNICallVoidMethod( const char* name, const char* sig, ... );
+		void		JNICallVoidMethod( JNIEnv* env, const char* name, const char* sig, ... );
 
 		JNIEnv*		m_env;
 		jobject		m_session;
+
+#ifdef THREADING_CHECKS
+	static unsigned int	ms_threadID;
+#endif
+
+		// multithread safe release of resources
+		Core::Mutex	m_threadSafeReleaseMutex;
+		std::list< ReleaseJobBase* > m_threadSafeReleaseJobs;
+		
 	};
+
+	template <class T>
+	void JSession::ThreadSafeRelease( T* pObject )
+	{
+		Core::ScopedLock autoLock( &m_threadSafeReleaseMutex );
+
+		m_threadSafeReleaseJobs.push_back( new ReleaseJob<T>( pObject ) );
+	}
+
 }

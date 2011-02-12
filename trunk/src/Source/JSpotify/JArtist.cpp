@@ -17,6 +17,7 @@
 
 #include "JArtist.h"
 #include "JUtils.h"
+#include "JSession.h"
 
 #include "Spotify/Spotify_Artist.h"
 
@@ -35,6 +36,8 @@ static Spotify::JArtist* GetArtistNativePtr( JNIEnv* env, jobject object )
 JNIEXPORT jstring JNICALL Java_Spotify_Artist_GetName
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();	
+
 	Spotify::JArtist* pArtist = GetArtistNativePtr( env, object );
 
 	const char* name = pArtist->GetName();
@@ -46,6 +49,8 @@ JNIEXPORT jstring JNICALL Java_Spotify_Artist_GetName
 JNIEXPORT jboolean JNICALL Java_Spotify_Artist_IsLoading
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();	
+
 	Spotify::JArtist* pArtist = GetArtistNativePtr( env, object );
 
 	return pArtist->IsLoading();
@@ -56,9 +61,18 @@ JNIEXPORT void JNICALL Java_Spotify_Artist_Release
 {
 	Spotify::JArtist* pArtist = GetArtistNativePtr( env, object );
 
-	delete pArtist;
+	pArtist->ThreadSafeRelease();
 
 	jclass cls = env->FindClass("Spotify/Artist");
 	jfieldID fid = env->GetFieldID( cls, "m_nativePtr", "I" );
 	env->SetIntField( object, fid, 0 );
 }
+
+namespace Spotify
+{
+	void JArtist::ThreadSafeRelease()
+	{
+		static_cast<JSession*>(m_pSession)->ThreadSafeRelease( this );
+	}
+}
+

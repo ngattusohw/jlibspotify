@@ -21,6 +21,10 @@ namespace Spotify
 {
 	class JArtist : public Artist
 	{
+	public:
 
+		JArtist( Session* pSession ) : Artist( pSession ) {}
+
+		void ThreadSafeRelease();
 	};
 }

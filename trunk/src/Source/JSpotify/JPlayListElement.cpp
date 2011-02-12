@@ -21,6 +21,7 @@
 // local
 #include "JPlayListElement.h"
 #include "JUtils.h"
+#include "JSession.h"
 
 // JNI
 #include "Spotify/Spotify_PlayListElement.h"
@@ -116,7 +117,7 @@ JNIEXPORT void JNICALL Java_Spotify_PlayListElement_Release
 	
 		pJElement->ReleaseJavaObject( pElement, javaObject );
 	
-		delete pJElement;
+		static_cast<Spotify::JSession*>(pElement->GetSession())->ThreadSafeRelease( pElement );
 	}
 }
 
@@ -124,6 +125,8 @@ namespace Spotify
 {
 	JPlayListElement::~JPlayListElement()
 	{
+		JSESSION_VALIDATE_THREAD();	
+
 		if (m_javaObject != 0)
 		{
 			m_env->DeleteGlobalRef( m_javaObject );
@@ -139,6 +142,8 @@ namespace Spotify
 
 	void Spotify::JPlayListElement::InitialiseJavaObject(JNIEnv *env, PlayListElement* pElement, const char* javaClassName )
 	{
+		JSESSION_VALIDATE_THREAD();	
+
 		m_env = env;
 
 		PARAONIA_PRINTF("InitialiseJavaObject() [0x%08X]\n", this);
@@ -192,4 +197,3 @@ namespace Spotify
 		}
 	}
 }
-

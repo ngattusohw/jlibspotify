@@ -26,5 +26,7 @@ namespace Spotify
 	{
 	public:
 		JAlbum( Session* pSession ) : Album( pSession ) {}
+
+		void ThreadSafeRelease();
 	};
 }

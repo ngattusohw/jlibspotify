@@ -26,5 +26,7 @@ namespace Spotify
 	{
 	public:
 		JImage( Session* pSession ) : Image( pSession ) {}
+
+		void ThreadSafeRelease();
 	};
 }
