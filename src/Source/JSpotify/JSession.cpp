@@ -417,8 +417,6 @@ namespace Spotify
 		{
 			m_env->GetJavaVM( &vm );		
 			vm->AttachCurrentThread( (void**) &env, NULL );
-
-			assert( env );
 		}
 
 		jclass cls = env->GetObjectClass(m_session);
@@ -503,8 +501,6 @@ namespace Spotify
 		m_env->GetJavaVM( &vm );		
 		vm->AttachCurrentThread( (void**) &env, NULL );			
 
-		assert( env );
-
 		// prepare sample data
 		int sampleSize = 2 * format->channels;
 		int numBytes = num_frames * sampleSize;
@@ -559,8 +555,6 @@ namespace Spotify
 
 		m_env->GetJavaVM( &vm );			
 		vm->AttachCurrentThread( (void**) &env, NULL );			
-
-		assert( env );
 
 		jstring jstr = env->NewStringUTF( data );		
 		JNICallVoidMethod( env, "OnLogMessage", "(Ljava/lang/String;)V", jstr );	
@@ -620,8 +614,6 @@ namespace Spotify
 		// get env for current thread
 		m_env->GetJavaVM( &vm );		
 		vm->AttachCurrentThread( (void**) &env, NULL );	
-
-		assert( env );
 
 		jclass cls = env->FindClass("Spotify/AudioBufferStats");
 		jmethodID cid = env->GetMethodID(cls, "<init>", "()V");
