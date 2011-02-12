@@ -29,6 +29,13 @@
 #include "Spotify/Spotify_Session.h"
 #include "Spotify/Spotify_Session_Config.h"
 
+#ifdef THREADING_CHECKS
+#include <Windows.h>	
+#include <assert.h>
+
+unsigned int Spotify::JSession::ms_threadID;
+#endif
+
 #define LOG(msg,...)	//
 
 JNIEXPORT jint JNICALL Java_Spotify_Session_NativeCreate
@@ -42,6 +49,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_NativeCreate
 JNIEXPORT void JNICALL Java_Spotify_Session_NativeDestroy
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 	delete pSession;
 }
@@ -49,6 +58,8 @@ JNIEXPORT void JNICALL Java_Spotify_Session_NativeDestroy
 JNIEXPORT jint JNICALL Java_Spotify_Session_Initialise
   (JNIEnv *env, jobject object, jint nativePtr, jobject jconfig)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	jboolean isCopy;
 	jfieldID fid;
 
@@ -109,6 +120,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_Initialise
 JNIEXPORT void JNICALL Java_Spotify_Session_Shutdown
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	pSession->Shutdown();		
@@ -117,6 +130,8 @@ JNIEXPORT void JNICALL Java_Spotify_Session_Shutdown
 JNIEXPORT void JNICALL Java_Spotify_Session_Update
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	pSession->Update();
@@ -125,6 +140,8 @@ JNIEXPORT void JNICALL Java_Spotify_Session_Update
 JNIEXPORT jint JNICALL Java_Spotify_Session_Login
   (JNIEnv *env, jobject object, jint nativePtr, jstring username, jstring password)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	jboolean isCopy;
@@ -142,6 +159,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_Login
 JNIEXPORT jint JNICALL Java_Spotify_Session_Logout
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	sp_error error = pSession->Logout();
@@ -151,6 +170,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_Logout
 JNIEXPORT jboolean JNICALL Java_Spotify_Session_IsLoggedIn
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	return pSession->IsLoggedIn();
@@ -159,12 +180,16 @@ JNIEXPORT jboolean JNICALL Java_Spotify_Session_IsLoggedIn
 JNIEXPORT jint JNICALL Java_Spotify_Session_GetConnectionState
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 	return pSession->GetConnectionState();
 }
 
 static Spotify::Track* GetTrackFromNativePtr( JNIEnv* env, jobject track )
 {
+	JSESSION_VALIDATE_THREAD();
+
 	// get Track ptr from track->m_nativePtr
 	jclass cls = env->FindClass("Spotify/Track");
 	jfieldID fid = env->GetFieldID( cls, "m_nativePtr", "I");
@@ -178,6 +203,8 @@ static Spotify::Track* GetTrackFromNativePtr( JNIEnv* env, jobject track )
 JNIEXPORT jint JNICALL Java_Spotify_Session_Load
   (JNIEnv *env, jobject object, jint nativePtr, jobject track)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	Spotify::Track* pTrack = GetTrackFromNativePtr( env, track );
@@ -188,6 +215,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_Load
 JNIEXPORT void JNICALL Java_Spotify_Session_Unload
   (JNIEnv *env, jobject object, jint nativePtr, jobject track)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 	Spotify::Track* pTrack = GetTrackFromNativePtr( env, track );
 	
@@ -197,6 +226,8 @@ JNIEXPORT void JNICALL Java_Spotify_Session_Unload
 JNIEXPORT jobject JNICALL Java_Spotify_Session_GetCurrentTrack
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 	Spotify::Track* pTrack = pSession->GetCurrentTrack();
 
@@ -214,6 +245,8 @@ JNIEXPORT jobject JNICALL Java_Spotify_Session_GetCurrentTrack
 JNIEXPORT jint JNICALL Java_Spotify_Session_Seek
   (JNIEnv *env, jobject object, jint nativePtr, jint offset)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	sp_error error = pSession->Seek( offset );
@@ -223,6 +256,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_Seek
 JNIEXPORT jint JNICALL Java_Spotify_Session_Play
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	sp_error error = pSession->Play();
@@ -232,6 +267,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_Play
 JNIEXPORT jint JNICALL Java_Spotify_Session_Stop
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	sp_error error = pSession->Stop();
@@ -241,6 +278,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_Stop
 JNIEXPORT jint JNICALL Java_Spotify_Session_PreFetch
   (JNIEnv *env, jobject object, jint nativePtr, jobject track)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	Spotify::Track* pTrack = GetTrackFromNativePtr( env, track );
@@ -252,6 +291,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Session_PreFetch
 JNIEXPORT jobject JNICALL Java_Spotify_Session_GetPlayListContainer
   (JNIEnv *env, jobject object, jint nativePtr)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 
 	Spotify::JPlayListContainer* pPlayListContainer = static_cast<Spotify::JPlayListContainer*>( pSession->GetPlayListContainer() );
@@ -271,6 +312,8 @@ JNIEXPORT jobject JNICALL Java_Spotify_Session_GetPlayListContainer
 JNIEXPORT void JNICALL Java_Spotify_Session_SetPreferredBitrate
   (JNIEnv *env, jobject object, jint nativePtr, jint bitrate)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::JSession* pSession = reinterpret_cast< Spotify::JSession* >( Spotify::NativePtrToPointer( nativePtr ) );
 	pSession->SetPreferredBitrate( static_cast<sp_bitrate>(bitrate) );
 }
@@ -279,58 +322,104 @@ namespace Spotify
 {
 	JSession::JSession(JNIEnv *env, jobject session)
 	{
+#ifdef THREADING_CHECKS
+		ms_threadID = GetCurrentThreadId();		
+#endif
 		m_env = env;
 		m_session = m_env->NewGlobalRef( session );
 	}
 
 	JSession::~JSession()
 	{
+		JSESSION_VALIDATE_THREAD();
+
 		m_env->DeleteGlobalRef( m_session );
 		m_session = NULL;
 	}
 
 	PlayList* JSession::CreatePlayList()
-	{		
+	{
+		JSESSION_VALIDATE_THREAD();
+
 		return new JPlayList( this );
 	}
 
 	PlayListContainer* JSession::CreatePlayListContainer()
 	{
+		JSESSION_VALIDATE_THREAD();
+
 		return new JPlayListContainer( this );
 	}
 
 	PlayListFolder* JSession::CreatePlayListFolder()
 	{
+		JSESSION_VALIDATE_THREAD();
+
 		return new JPlayListFolder( this );
 	}
 
 	Track* JSession::CreateTrack()
 	{
+		JSESSION_VALIDATE_THREAD();
+
 		return new JTrack( this );
 	}
 
 	Artist* JSession::CreateArtist()
 	{
-		return new JArtist();
+		JSESSION_VALIDATE_THREAD();
+
+		return new JArtist( this );
 	}
 
 	Album* JSession::CreateAlbum()
 	{
+		JSESSION_VALIDATE_THREAD();
+
 		return new JAlbum( this );
 	}
 
 	Image* JSession::CreateImage()
 	{
+		JSESSION_VALIDATE_THREAD();
+
 		return new JImage( this );
 	}
 
-	void JSession::JNICallVoidMethod( const char* name, const char* sig, ... )
+	void JSession::Update()
 	{
-		JNIEnv* env = NULL;
-		JavaVM* vm = NULL;
-		
-		m_env->GetJavaVM( &vm );		
-		vm->AttachCurrentThread( (void**) &env, NULL );
+		JSESSION_VALIDATE_THREAD();
+
+		// perform any cleanup required
+		{
+			Core::ScopedLock autoLock( &m_threadSafeReleaseMutex );
+
+			while (!m_threadSafeReleaseJobs.empty())
+			{
+				ReleaseJobBase* pJob = m_threadSafeReleaseJobs.front();
+				m_threadSafeReleaseJobs.pop_front();
+
+				pJob->Release();
+				delete pJob;
+			}
+
+		}
+
+
+		// call Update() in the super class
+		Session::Update();
+	}
+
+	void JSession::JNICallVoidMethod( JNIEnv* env, const char* name, const char* sig, ... )
+	{		
+		JavaVM* vm = NULL;		
+		if (env == NULL)
+		{
+			m_env->GetJavaVM( &vm );		
+			vm->AttachCurrentThread( (void**) &env, NULL );
+
+			assert( env );
+		}
 
 		jclass cls = env->GetObjectClass(m_session);
 
@@ -345,7 +434,11 @@ namespace Spotify
 				va_end(args);	
 			}
 		}
-		
+
+		if (vm != NULL)
+		{
+			vm->DetachCurrentThread();		
+		}
 	}
 
 	void JSession::OnLoggedIn( sp_error error )
@@ -353,7 +446,7 @@ namespace Spotify
 		Session::OnLoggedIn( error );
 		LOG("OnLoggedIn");
 
-		JNICallVoidMethod( "OnLoggedIn", "(I)V", jint(error) );			
+		JNICallVoidMethod( NULL, "OnLoggedIn", "(I)V", jint(error) );			
 	}
 
 	void JSession::OnLoggedOut()
@@ -361,7 +454,7 @@ namespace Spotify
 		Session::OnLoggedOut();
 		LOG("OnLoggedOut");
 
-		JNICallVoidMethod( "OnLoggedOut", "()V" );
+		JNICallVoidMethod( NULL, "OnLoggedOut", "()V" );
 	}
 
 	void JSession::OnMetadataUpdated()
@@ -369,7 +462,7 @@ namespace Spotify
 		Session::OnMetadataUpdated();
 		LOG("OnMetadataUpdated");
 
-		JNICallVoidMethod( "OnMetadataUpdated", "()V" );
+		JNICallVoidMethod( NULL, "OnMetadataUpdated", "()V" );
 	}
 
 	void JSession::OnConnectionError( sp_error error )
@@ -377,7 +470,7 @@ namespace Spotify
 		Session::OnConnectionError( error );
 		LOG("OnConnectionError");
 
-		JNICallVoidMethod( "OnConnectionError", "(I)V", jint(error) );
+		JNICallVoidMethod( NULL, "OnConnectionError", "(I)V", jint(error) );
 	}
 
 	void JSession::OnMessageToUser( const char* message )
@@ -388,7 +481,7 @@ namespace Spotify
 		LOG( message );
 
 		jstring jstr = m_env->NewStringUTF( message );
-		JNICallVoidMethod( "OnLoggedOut", "(Ljava/lang/String;)V", jstr );		
+		JNICallVoidMethod( NULL, "OnLoggedOut", "(Ljava/lang/String;)V", jstr );		
 	}
 
 	void JSession::OnNotifyMainThread()
@@ -396,7 +489,7 @@ namespace Spotify
 		Session::OnNotifyMainThread();
 		LOG("OnNotifyMainThread");
 		
-		JNICallVoidMethod( "OnNotifyMainThread", "()V" );
+		JNICallVoidMethod( NULL, "OnNotifyMainThread", "()V" );
 	}
 
 	int  JSession::OnMusicDelivery( const sp_audioformat* format, const void* frames, int num_frames )
@@ -408,7 +501,9 @@ namespace Spotify
 		
 		// get env for current thread
 		m_env->GetJavaVM( &vm );		
-		vm->AttachCurrentThread( (void**) &env, NULL );		
+		vm->AttachCurrentThread( (void**) &env, NULL );			
+
+		assert( env );
 
 		// prepare sample data
 		int sampleSize = 2 * format->channels;
@@ -416,16 +511,10 @@ namespace Spotify
 
 		jbyteArray byteArray = env->NewByteArray( numBytes );
 		
-		jboolean isCopy = false;
-		jbyte* pByteData = env->GetByteArrayElements( byteArray, &isCopy );
-
 		for (int i=0; i<numBytes; i++)
 		{
-			pByteData[i] = ( (uint8_t*) frames)[i];
+			env->SetByteArrayRegion( byteArray, i, 1, &( (jbyte*) frames)[i] );
 		}
-		
-		env->ReleaseByteArrayElements( byteArray, pByteData, 0);
-		pByteData = 0;
 
 		// prepare audioFormat
 		jclass clsa = env->FindClass("Spotify/AudioFormat");
@@ -445,6 +534,8 @@ namespace Spotify
 
 		int retValue = env->CallIntMethod( m_session, mid, jaudioFormat, byteArray, num_frames );		
 
+		vm->DetachCurrentThread();
+		
 		return retValue;		
 	}
 
@@ -453,7 +544,7 @@ namespace Spotify
 		Session::OnPlayTokenLost();
 		LOG("OnPlayTokenLost");
 
-		JNICallVoidMethod( "OnPlayTokenLost", "()V" );
+		JNICallVoidMethod( NULL, "OnPlayTokenLost", "()V" );
 	}
 
 	void JSession::OnLogMessage( const char* data )
@@ -463,9 +554,18 @@ namespace Spotify
 		LOG("OnLogMessage");
 		LOG( data );
 		
-		jstring jstr = m_env->NewStringUTF( data );		
-		JNICallVoidMethod( "OnLogMessage", "(Ljava/lang/String;)V", jstr );		
-		m_env->DeleteLocalRef( jstr );		
+		JNIEnv* env = NULL;
+		JavaVM* vm = NULL;
+
+		m_env->GetJavaVM( &vm );			
+		vm->AttachCurrentThread( (void**) &env, NULL );			
+
+		assert( env );
+
+		jstring jstr = env->NewStringUTF( data );		
+		JNICallVoidMethod( env, "OnLogMessage", "(Ljava/lang/String;)V", jstr );	
+
+		vm->DetachCurrentThread();
 	}
 
 	void JSession::OnEndOfTrack()
@@ -474,7 +574,7 @@ namespace Spotify
 
 		LOG("OnEndOfTrack");
 
-		JNICallVoidMethod( "OnEndOfTrack", "()V" );
+		JNICallVoidMethod( NULL, "OnEndOfTrack", "()V" );
 	}
 
 	void JSession::OnStreamingError( sp_error error )
@@ -482,7 +582,7 @@ namespace Spotify
 		Session::OnStreamingError( error );
 		LOG("OnStreamingError");
 
-		JNICallVoidMethod( "OnStreamingError", "(I)V" );
+		JNICallVoidMethod( NULL, "OnStreamingError", "(I)V" );
 	}
 
 	void JSession::OnUserinfoUpdated()
@@ -490,7 +590,7 @@ namespace Spotify
 		Session::OnUserinfoUpdated();
 		LOG("OnUserinfoUpdated");
 
-		JNICallVoidMethod( "OnUserinfoUpdated", "()V" );
+		JNICallVoidMethod( NULL, "OnUserinfoUpdated", "()V" );
 	}
 
 	void JSession::OnStartPlayback()
@@ -498,7 +598,7 @@ namespace Spotify
 		Session::OnStartPlayback();
 		LOG("OnStartPlayback");
 
-		JNICallVoidMethod( "OnStartPlayback", "()V" );
+		JNICallVoidMethod( NULL, "OnStartPlayback", "()V" );
 	}
 
 	void JSession::OnStopPlayback()
@@ -506,7 +606,7 @@ namespace Spotify
 		Session::OnStopPlayback();
 		LOG("OnStopPlayback");
 
-		JNICallVoidMethod( "OnStopPlayback", "()V" );
+		JNICallVoidMethod( NULL, "OnStopPlayback", "()V" );
 	}
 
 	void JSession::OnGetAudioBufferStats( sp_audio_buffer_stats* stats )
@@ -521,6 +621,8 @@ namespace Spotify
 		m_env->GetJavaVM( &vm );		
 		vm->AttachCurrentThread( (void**) &env, NULL );	
 
+		assert( env );
+
 		jclass cls = env->FindClass("Spotify/AudioBufferStats");
 		jmethodID cid = env->GetMethodID(cls, "<init>", "()V");
 		jobject jstats = env->NewObject( cls, cid );
@@ -528,15 +630,29 @@ namespace Spotify
 		jfieldID samplesID = env->GetFieldID( cls, "m_samples", "I");
 		jfieldID stutterID = env->GetFieldID( cls, "m_stutter", "I");
 
-		JNICallVoidMethod( "OnGetAudioBufferStats", "(LSpotify/AudioBufferStats;)V", jstats );
+		JNICallVoidMethod( env, "OnGetAudioBufferStats", "(LSpotify/AudioBufferStats;)V", jstats );
 
 		stats->samples = env->GetIntField( jstats, samplesID );
 		stats->stutter = env->GetIntField( jstats, stutterID );		
+
+		vm->DetachCurrentThread();
 	}
 
 	JNIEnv* JSession::GetEnv()
 	{
 		return m_env;
 	}
+
+#ifdef THREADING_CHECKS
+	void Spotify::JSession::ValidateThread( const char* label )
+	{
+		if (ms_threadID != GetCurrentThreadId() )
+		{
+			printf("ValidateThread [%s] ms_threadID [%u] != current [%u]\n", label, ms_threadID, GetCurrentThreadId() );
+
+			assert( ms_threadID == GetCurrentThreadId() );
+		}
+	}
+#endif
 }
 

@@ -17,6 +17,7 @@
 
 #include "JImage.h"
 #include "JUtils.h"
+#include "JSession.h"
 
 #include "Spotify/Spotify_Image.h"
 
@@ -35,6 +36,8 @@ static Spotify::JImage* GetImageNativePtr( JNIEnv* env, jobject object )
 JNIEXPORT jcharArray JNICALL Java_Spotify_Image_GetData
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();	
+
 	Spotify::JImage* pImage = GetImageNativePtr( env, object );
 
 	size_t numBytes;
@@ -58,6 +61,8 @@ JNIEXPORT jcharArray JNICALL Java_Spotify_Image_GetData
 JNIEXPORT jboolean JNICALL Java_Spotify_Image_IsLoading
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();	
+
 	Spotify::JImage* pImage = GetImageNativePtr( env, object );
 
 	return pImage->IsLoading();
@@ -68,10 +73,18 @@ JNIEXPORT void JNICALL Java_Spotify_Image_Release
 {
 	Spotify::JImage* pImage = GetImageNativePtr( env, object );
 
-	delete pImage;
+	pImage->ThreadSafeRelease();
 
 	jclass cls = env->FindClass("Spotify/Image");
 	jfieldID fid = env->GetFieldID( cls, "m_nativePtr", "I" );
 	env->SetIntField( object, fid, 0 );
+}
+
+namespace Spotify
+{
+	void JImage::ThreadSafeRelease()
+	{
+		static_cast<JSession*>(m_pSession)->ThreadSafeRelease( this );
+	}
 }
 

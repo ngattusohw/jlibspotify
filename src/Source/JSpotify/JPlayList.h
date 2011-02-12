@@ -34,5 +34,7 @@ namespace Spotify
 		JPlayList( JSession* pSession );
 
 	private:
+
+
 	};
 }

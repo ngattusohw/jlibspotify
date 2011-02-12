@@ -34,6 +34,8 @@ namespace Spotify
 
 		static		PlayListElement* GetPlayListElement(JNIEnv *env, jobject javaObject);
 
+		void		ThreadSafeRelease();
+
 	protected:
 		void		InitialiseJavaObject( JNIEnv *env, PlayListElement* pElement, const char* javaClassName );		
 

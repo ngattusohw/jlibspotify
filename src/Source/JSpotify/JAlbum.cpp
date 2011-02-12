@@ -18,6 +18,7 @@
 #include "JAlbum.h"
 #include "JImage.h"
 #include "JUtils.h"
+#include "JSession.h"
 
 #include "Spotify/Spotify_Album.h"
 
@@ -35,6 +36,8 @@ Spotify::JAlbum* GetAlbumNativePtr( JNIEnv* env, jobject object )
 JNIEXPORT jstring JNICALL Java_Spotify_Album_GetName
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();	
+
 	Spotify::JAlbum* pAlbum = GetAlbumNativePtr( env, object );
 
 	const char* name = pAlbum->GetName();
@@ -46,6 +49,8 @@ JNIEXPORT jstring JNICALL Java_Spotify_Album_GetName
 JNIEXPORT jboolean JNICALL Java_Spotify_Album_IsLoading
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();	
+
 	Spotify::JAlbum* pAlbum = GetAlbumNativePtr( env, object );
 
 	return pAlbum->IsLoading();
@@ -54,6 +59,8 @@ JNIEXPORT jboolean JNICALL Java_Spotify_Album_IsLoading
 JNIEXPORT jobject JNICALL Java_Spotify_Album_GetImage
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();	
+
 	Spotify::JAlbum* pAlbum = GetAlbumNativePtr( env, object );
 
 	Spotify::JImage* pImage = static_cast<Spotify::JImage*>( pAlbum->GetImage() );
@@ -75,10 +82,18 @@ JNIEXPORT void JNICALL Java_Spotify_Album_Release
   (JNIEnv *env, jobject object)
 {
 	Spotify::JAlbum* pAlbum = GetAlbumNativePtr( env, object );
-
-	delete pAlbum;
+	
+	pAlbum->ThreadSafeRelease();
 
 	jclass cls = env->FindClass("Spotify/Album");
 	jfieldID fid = env->GetFieldID( cls, "m_nativePtr", "I" );
 	env->SetIntField( object, fid, 0 );
+}
+
+namespace Spotify
+{
+	void JAlbum::ThreadSafeRelease()
+	{
+		static_cast<JSession*>(m_pSession)->ThreadSafeRelease( this );
+	}
 }

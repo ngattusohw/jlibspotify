@@ -28,6 +28,8 @@
 JNIEXPORT jint JNICALL Java_Spotify_Track_GetDuration
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::PlayListElement* pElement = Spotify::JPlayListElement::GetPlayListElement( env, object );
 	Spotify::Track* pTrack = static_cast<Spotify::Track*>( pElement );
 	
@@ -37,6 +39,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Track_GetDuration
 JNIEXPORT jint JNICALL Java_Spotify_Track_GetNumArtists
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::PlayListElement* pElement = Spotify::JPlayListElement::GetPlayListElement( env, object );
 	Spotify::Track* pTrack = static_cast<Spotify::Track*>( pElement );
 
@@ -46,6 +50,8 @@ JNIEXPORT jint JNICALL Java_Spotify_Track_GetNumArtists
 JNIEXPORT jobject JNICALL Java_Spotify_Track_GetArtist
   (JNIEnv *env, jobject object, jint index)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::PlayListElement* pElement = Spotify::JPlayListElement::GetPlayListElement( env, object );
 	Spotify::Track* pTrack = static_cast<Spotify::Track*>( pElement );
 
@@ -62,6 +68,8 @@ JNIEXPORT jobject JNICALL Java_Spotify_Track_GetArtist
 JNIEXPORT jobject JNICALL Java_Spotify_Track_GetAlbum
   (JNIEnv *env, jobject object)
 {
+	JSESSION_VALIDATE_THREAD();
+
 	Spotify::PlayListElement* pElement = Spotify::JPlayListElement::GetPlayListElement( env, object );
 	Spotify::Track* pTrack = static_cast<Spotify::Track*>( pElement );
 
