@@ -40,8 +40,7 @@ JNIEXPORT jstring JNICALL Java_Spotify_Artist_GetName
 
 	Spotify::JArtist* pArtist = GetArtistNativePtr( env, object );
 
-	const char* name = pArtist->GetName();
-	jstring jstr = env->NewStringUTF( name );
+	jstring jstr = env->NewStringUTF( pArtist->GetName().c_str() );
 
 	return jstr;
 }
