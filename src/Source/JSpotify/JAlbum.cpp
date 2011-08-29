@@ -40,8 +40,7 @@ JNIEXPORT jstring JNICALL Java_Spotify_Album_GetName
 
 	Spotify::JAlbum* pAlbum = GetAlbumNativePtr( env, object );
 
-	const char* name = pAlbum->GetName();
-	jstring jstr = env->NewStringUTF( name );
+	jstring jstr = env->NewStringUTF( pAlbum->GetName().c_str() );
 
 	return jstr;
 }

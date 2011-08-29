@@ -18,12 +18,17 @@
 package Spotify;
 
 public class Session {
-
+	
 	static {
-		// load the native Dynamic Library
+		// load the native Dynamic Libraries	
+		
+		// load the libspotify DLL (as provided by Spotify)
 		System.loadLibrary( "libspotify" );
+		
+		// load the JLibSpotify DLL (as provided by JLibSpotify)
 		System.loadLibrary( "JLibSpotify" );
 	}
+	
 
 	public int Initialise(Config config) {
 		m_nativePtr = NativeCreate();
@@ -43,12 +48,12 @@ public class Session {
 		Update(m_nativePtr);
 	}
 
-	public int Login(String username, String password) {
-		return Login(m_nativePtr, username, password);
+	public void Login(String username, String password) {
+		Login(m_nativePtr, username, password);
 	}
 
-	public int Logout() {
-		return Logout(m_nativePtr);
+	public void Logout() {
+		Logout(m_nativePtr);
 	}
 
 	public boolean IsLoggedIn() {
@@ -79,16 +84,16 @@ public class Session {
 		return GetCurrentTrack(m_nativePtr);
 	}
 
-	public int Seek(int offset) {
-		return Seek(m_nativePtr, offset);
+	public void Seek(int offset) {
+		Seek(m_nativePtr, offset);
 	}
 
-	public int Play() {
-		return Play(m_nativePtr);
+	public void Play() {
+		Play(m_nativePtr);
 	}
 
-	public int Stop() {
-		return Stop(m_nativePtr);
+	public void Stop() {
+		Stop(m_nativePtr);
 	}
 
 	public int PreFetch(Track pTrack) {
@@ -177,9 +182,9 @@ public class Session {
 
 	private native void Update(int nativePtr);
 
-	private native int Login(int nativePtr, String username, String password);
+	private native void Login(int nativePtr, String username, String password);
 
-	private native int Logout(int nativePtr);
+	private native void Logout(int nativePtr);
 
 	private native boolean IsLoggedIn(int nativePtr);
 
@@ -191,11 +196,11 @@ public class Session {
 
 	private native Track GetCurrentTrack(int nativePtr);
 
-	private native int Seek(int nativePtr, int offset);
+	private native void Seek(int nativePtr, int offset);
 
-	private native int Play(int nativePtr);
+	private native void Play(int nativePtr);
 
-	private native int Stop(int nativePtr);
+	private native void Stop(int nativePtr);
 
 	private native int PreFetch(int nativePtr, Track pTrack);
 

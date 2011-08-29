@@ -93,9 +93,8 @@ JNIEXPORT jstring JNICALL Java_Spotify_PlayListElement_GetName
   (JNIEnv *env, jobject javaObject)
 {
 	Spotify::PlayListElement* pElement = Spotify::JPlayListElement::GetPlayListElement( env, javaObject );
-	const char* name = pElement->GetName();
 
-	jstring jstr = env->NewStringUTF( name );
+	jstring jstr = env->NewStringUTF( pElement->GetName().c_str() );
 	return jstr;
 }
 

@@ -23,6 +23,5 @@ public class Config
 	public int		m_appKeySize;
 	public String	m_cacheLocation;
 	public String 	m_settingsLocation;
-	public boolean	m_tinySettings;
 	public String	m_userAgent;		
 }

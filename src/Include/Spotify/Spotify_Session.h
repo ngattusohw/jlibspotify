@@ -50,17 +50,17 @@ JNIEXPORT void JNICALL Java_Spotify_Session_Update
 /*
  * Class:     Spotify_Session
  * Method:    Login
- * Signature: (ILjava/lang/String;Ljava/lang/String;)I
+ * Signature: (ILjava/lang/String;Ljava/lang/String;)V
  */
-JNIEXPORT jint JNICALL Java_Spotify_Session_Login
+JNIEXPORT void JNICALL Java_Spotify_Session_Login
   (JNIEnv *, jobject, jint, jstring, jstring);
 
 /*
  * Class:     Spotify_Session
  * Method:    Logout
- * Signature: (I)I
+ * Signature: (I)V
  */
-JNIEXPORT jint JNICALL Java_Spotify_Session_Logout
+JNIEXPORT void JNICALL Java_Spotify_Session_Logout
   (JNIEnv *, jobject, jint);
 
 /*
@@ -106,25 +106,25 @@ JNIEXPORT jobject JNICALL Java_Spotify_Session_GetCurrentTrack
 /*
  * Class:     Spotify_Session
  * Method:    Seek
- * Signature: (II)I
+ * Signature: (II)V
  */
-JNIEXPORT jint JNICALL Java_Spotify_Session_Seek
+JNIEXPORT void JNICALL Java_Spotify_Session_Seek
   (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     Spotify_Session
  * Method:    Play
- * Signature: (I)I
+ * Signature: (I)V
  */
-JNIEXPORT jint JNICALL Java_Spotify_Session_Play
+JNIEXPORT void JNICALL Java_Spotify_Session_Play
   (JNIEnv *, jobject, jint);
 
 /*
  * Class:     Spotify_Session
  * Method:    Stop
- * Signature: (I)I
+ * Signature: (I)V
  */
-JNIEXPORT jint JNICALL Java_Spotify_Session_Stop
+JNIEXPORT void JNICALL Java_Spotify_Session_Stop
   (JNIEnv *, jobject, jint);
 
 /*
